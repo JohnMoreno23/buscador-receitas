@@ -1,0 +1,51 @@
+body {
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    background-color: #1f1e1e;
+    color: #fff;
+}
+
+.container {
+    max-width: 800px;
+    margin: auto;
+    background: #2c2b2b;
+    padding: 20px;
+    box-shadow: 0 0 10px rgb(179, 1, 1);
+    border-radius: 20px;
+}
+
+h1 {
+    text-align: center;
+}
+
+.searchForm {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    
+}
+
+.searchInput {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+}
+
+.searchButton {
+    padding: 8px 16px;
+    border: none;
+    background-color: #28a745;
+    color: white;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.5s;
+}
+
+.searchButton:hover {
+    background-color: #0d521c;
+}
