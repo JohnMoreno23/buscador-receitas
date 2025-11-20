@@ -5,7 +5,9 @@ Lógica
 [x] Colocar as receitas na tela
 [x] Saber quando o usuário clicou na receita
 [x] Buscar info da receita individual na API
-[] Colocar na tela a receita individual
+[x] Colocar na tela a receita individual
+
+TRY / CATCH
 
 */
 
@@ -26,12 +28,18 @@ form.addEventListener("submit", function (event) {
 
 async function searchRecipes(ingredient) {
   // para acessar a API
+
+  recipeList.innerHTML = "<p>Carregando...</p>"; // Mostra uma mensagem de carregamento
+  try {
   const response = await fetch(
     `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`
   ); // Chama a API com o ingrediente
   const data = await response.json(); // Converte a resposta em JSON
 
   showRecipes(data.meals); // Chama a função para mostrar as receitas na tela
+  } catch (error) {
+        recipeList.innerHTML = "<p>Nenhuma receita encontrada.</p>";
+  }
 
   //console.log(data); // Verifica os dados no console
   //console.log(response); // Verifica os dados no console
@@ -75,6 +83,18 @@ async function getRecipeDetails(recipeId) {
     }
   }
 
+  recipeDetails.innerHTML = `
+    <h2>${recipe.strMeal}</h2>
+    <img src="${recipe.strMealThumb}" alt="${recipe.strMeal} class="recipeImg">
+    <h3>Ingredients:</h3>
+    <ul>
+      ${ingredients}
+    </ul>
+    <h3>Instructions:</h3>
+    <p>${recipe.strInstructions}</p>
+    <p>Tags: ${recipe.strTags}</p>
+    <p>Video do preparo [EN]: <a href="${recipe.strYoutube}" target="_blank">Assista aqui</a></p>
+  `;
 
 }
 
