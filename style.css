@@ -20,6 +20,13 @@ h1 {
     text-align: center;
 }
 
+main h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-weight: normal;
+    color: #c58585;
+}
+
 .searchForm {
     display: flex;
     gap: 10px;
