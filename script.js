@@ -1,33 +1,81 @@
 /* 
 Lógica
 [x] Capturar o evento de input quando o botão for clicado
-[] Ir até a API e trazer as receitas
-[] Colocar as receitas na tela
-[] Saber quando o usuário clicou na receita
-[] Buscar info da receita individual na API
+[x] Ir até a API e trazer as receitas
+[x] Colocar as receitas na tela
+[x] Saber quando o usuário clicou na receita
+[x] Buscar info da receita individual na API
 [] Colocar na tela a receita individual
 
 */
 
 // const input = document.querySelector(".searchInput");
 const form = document.querySelector(".searchForm");
+const recipeList = document.querySelector(".recipeList");
+const recipeDetails = document.querySelector(".recipeDetails");
 
 form.addEventListener("submit", function (event) {
-    event.preventDefault(); // Evita o reload da página
-    // console.log(event); // Verifica o evento no console
-    const inputValue = event.target[0].value // Pega o valor do input
+  event.preventDefault(); // Evita o reload da página
+  // console.log(event); // Verifica o evento no console
+  const inputValue = event.target[0].value; // Pega o valor do input
 
-    searchRecipes()
+  searchRecipes(inputValue); // Chama a função de busca de receitas
 });
 
 // www.themealdb.com/api/json/v1/1/filter.php?i=chicken_breast
 
-async function searchRecipes(ingredient) { // para acessar a API
-    const response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`); // Chama a API com o ingrediente
-    const data = await response.json(); // Converte a resposta em JSON
-    
-    console.log(data); // Verifica os dados no console
-    //console.log(response); // Verifica os dados no console
+async function searchRecipes(ingredient) {
+  // para acessar a API
+  const response = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredient}`
+  ); // Chama a API com o ingrediente
+  const data = await response.json(); // Converte a resposta em JSON
+
+  showRecipes(data.meals); // Chama a função para mostrar as receitas na tela
+
+  //console.log(data); // Verifica os dados no console
+  //console.log(response); // Verifica os dados no console
+}
+
+function showRecipes(recipes) {
+  // Pega o container de receitas
+  recipeList.innerHTML = recipes
+    .map(
+      (recipe) => `
+        <div class="recipeCard " onclick="getRecipeDetails(${recipe.idMeal})">
+            <img src="${recipe.strMealThumb}" alt="${recipe.strMeal}">
+            <h3>${recipe.strMeal}</h3>
+        </div>
+
+
+        `
+    )
+    .join(""); // Junta tudo em uma string só
+}
+
+async function getRecipeDetails(recipeId) {
+  // Função para buscar detalhes da receita individual
+
+  const response = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${recipeId}`
+  ); // Chama a API com o ID da receita
+  const data = await response.json(); // Converte a resposta em JSON
+  const recipe = data.meals[0];
+
+  let ingredients = '';
+
+  console.log(recipe); // Verifica os dados no console
+
+  for (let i = 1; i <= 20; i++) {
+    if (recipe[`strIngredient${i}`]) {
+      ingredients += `<li>${recipe[`strIngredient${i}`]} - ${recipe[`strMeasure${i}`]}</li>`
+
+    } else {
+        break; 
+    }
+  }
+
+
 }
 
 /* Lista de status
